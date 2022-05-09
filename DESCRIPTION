@@ -1,0 +1,19 @@
+Package: sepro
+Type: Package
+Title: Separation Process
+Version: 0.1
+Date: 2022-05-08
+Authors@R: person("hdr", "bv", email = "for_qa@ro.ru", role = c("cre","aut"))
+Description: Estimating of parameters in statistical distributions
+URL: https://github.com/hdrbv/sepro
+BugReports: https://github.com/hdrbv/sepro/issues
+Depends:
+    R (>= 4.0.0)
+Imports:
+	devtools, roxygen2, mixtools, 
+	foreach, miscTools, dplyr, ggplot2, 
+	stargazer, testthat, pkgdown
+Encoding: UTF-8
+Language: en-US
+License: Copyright (c) 2022 hdrbv. All rights reserved.
+RoxygenNote: 7.1.0
