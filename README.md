@@ -1,8 +1,7 @@
 # SEPRO: Separation Process with R
 
-Estimating of parameters in statistical distributions using R. Package
-provides an implementation of the EM algorithm (Expectation Maximization
-Algorithm) in the R language.
+Estimating of parameters in statistical distributions. 
+Package provides an implementation of the EM algorithm (Expectation Maximization Algorithm) in the R language.
 
 <figure>
 <img src="graphics/ex1.png"
