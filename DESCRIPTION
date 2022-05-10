@@ -10,9 +10,9 @@ BugReports: https://github.com/hdrbv/sepro/issues
 Depends:
     R (>= 4.0.0)
 Imports:
-	devtools, roxygen2, mixtools, 
-	foreach, miscTools, dplyr, ggplot2, 
-	stargazer, testthat, pkgdown
+	devtools, roxygen2, mixtools, readxl, MASS, survival, npsurv, lsei, fitdistrplus,
+	foreach, miscTools, dplyr, ggplot2, stargazer, testthat, usethis, available,
+	cachem, pkgdown
 Encoding: UTF-8
 Language: en-US
 License: Copyright (c) 2022 hdrbv. All rights reserved.
