@@ -5,7 +5,7 @@ provides an implementation of the EM algorithm (Expectation Maximization
 Algorithm) in the R language.
 
 <figure>
-<img src="graphics/ex1"
+<img src="graphics/ex1.png"
 alt="Example of mixture - 2 Gaussian functions" />
 <figcaption aria-hidden="true"><em>Example of mixture - 2 Gaussian
 functions</em></figcaption>
