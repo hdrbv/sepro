@@ -1,4 +1,4 @@
-# SePRO: Separation Process with R
+# SePRo: Separation Process with R
 
 Estimating of parameters in statistical distributions. 
 Package provides an implementation of the EM algorithm (Expectation Maximization Algorithm) in the R language. Today, EM and its variants are regularly used to solve a broad range of today’s estimation problems, from the multiple EM for motif elicitation (MEME) algorithm for motif-finding in DNA squences, to fitting mixture models to disambiguate targets from clutter in radar. Hope that you, too, will find EM useful.
