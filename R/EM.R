@@ -27,6 +27,7 @@
 #' @param k - amount of clusters (mixture components) 
 #' @return Parameters for each distribution 
 #' @author hdrbv
+#' @export
 
 EM <- function(x0, k){  #Beginning of EM function
   #Function for E-Step
