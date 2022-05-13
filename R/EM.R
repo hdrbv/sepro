@@ -1,6 +1,5 @@
 #' EM Function
 #' 
-#' 
 #' This function realized EM algorithm (Expectation-Maximization algorithm)
 #' for data clustering. In this case, for mixture models.
 #' 
