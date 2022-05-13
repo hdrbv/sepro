@@ -7,9 +7,9 @@
 EM(x0, k)
 }
 \arguments{
-\item{x0}{- input data (vector)}
+\item{x0}{input data (vector)}
 
-\item{k}{- amount of clusters (mixture components)}
+\item{k}{amount of clusters (mixture components)}
 }
 \value{
 Parameters for each distribution
