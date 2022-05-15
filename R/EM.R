@@ -22,8 +22,8 @@
 #' In the end explorer has updated probabilities for each item and
 #' updated parameters for each distribution (explorer should look at E.Step and M.Step)
 #' 
-#' @param x0 - input data (vector)
-#' @param k - amount of clusters (mixture components) 
+#' @param x0 input data (vector)
+#' @param k amount of clusters (mixture components) 
 #' @return Parameters for each distribution 
 #' @author hdrbv
 #' @export
