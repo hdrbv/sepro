@@ -38,6 +38,13 @@ in other words: logarithm of likelihood function didn’t change much).
 In the end explorer has updated probabilities for each item and
 updated parameters for each distribution (explorer should look at E.Step and M.Step)
 }
+\examples{
+For example we want to separate 2 Gaussian distributions
+and estimate parameters of each one.
+Let us assume that vector x1 - mixture of these distributions. 
+So we can use EM algorithm here:   
+EM1 <- sepro::EM(x0 = x0, k = 2).
+}
 \author{
 hdrbv
 }
