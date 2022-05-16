@@ -25,6 +25,11 @@
 #' @param x0 input data (vector)
 #' @param k amount of clusters (mixture components) 
 #' @return Parameters for each distribution 
+#' @examples For example we want to separate 2 Gaussian distributions
+#' @examples and estimate parameters of each one.
+#' @examples Let us assume that vector x1 - mixture of these distributions. 
+#' @examples So we can use EM algorithm here:   
+#' @examples EM1 <- sepro::EM(x0 = x0, k = 2).
 #' @author hdrbv
 #' @export
 
