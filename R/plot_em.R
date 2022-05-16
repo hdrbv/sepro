@@ -19,7 +19,7 @@ plot_em <- function(x0, EM){
 	plot_mix_comps <- function(x, mu, sigma, w) {
 	  w * dnorm(x, mu, sigma)
 	}	
-	data.frame(x = vec) %>%
+	data.frame(x = x0) %>%
 	ggplot() +
 	geom_histogram(aes(x, ..density..), binwidth = 1, colour = "black", 
 		   fill = "white") +
