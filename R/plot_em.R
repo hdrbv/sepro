@@ -31,6 +31,7 @@ plot_em <- function(x0, EM){
 		  colour = "blue", lwd = 1.5) +
 	ylab("Density") +
 	xlab("Values") +
+	theme_minimal() +	
 	ggtitle("Final plot of mixture")
 }
 
