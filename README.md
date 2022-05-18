@@ -34,7 +34,7 @@ package.  Install **devtools** first:
 Theory
 ------
 
-Let's assume that we have some observed data $y$, a parametric density
+Let us assume that we have some observed data $y$, a parametric density
 $p(y|\theta)$, a description of some complete data $x$ that we wish we
 had, and the parametric density $p(x|\theta)$. We assume that the
 complete data can be modeled as a continuous random vector $X$ with
