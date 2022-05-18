@@ -9,7 +9,7 @@ DNA sequences, to fitting mixture models to disambiguate targets from
 clutter in radar. Hope that you, too, will find EM useful. You can see
 examples of usage [here](https://cran.r-project.org/).
 
-![*Example of mixture - 2 Gaussian functions*](graphics/ex1)
+![*Example of mixture - 2 Gaussian functions*](graphics/ex1.png)
 
 ## Installation in R
 
@@ -109,7 +109,7 @@ mixture of two distributions which we will separate:
 
 ![*Plot of created mixture (result of plot(mix))*](graphics/mix.png)
 
-Apply \(EM\) function from [sepro](https://github.com/hdrbv/sepro.png)
+Apply \(EM\) function from [sepro](https://github.com/hdrbv/sepro)
 package to our mixture:
 
     vect <- as.numeric(mix)
