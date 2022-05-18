@@ -1,4 +1,4 @@
-SEPRO: Separation Process with R
+SepRO: Separation Process with R
 ================================
 
 Estimating of parameters in statistical distributions using R. Package
