@@ -12,7 +12,7 @@ examples of usage [here](https://cran.r-project.org/).
 
 \centering
 ![*Example of mixture - 2 Gaussian
-functions*](graphics/ex1){width="1\linewidth"}
+functions*](Graphics/ex1){width="1\linewidth"}
 
 Installation in R
 -----------------
@@ -114,7 +114,7 @@ mixture of two distributions which we will separate:
 
 \centering
 ![*Plot of created mixture (result of
-plot(mix))*](graphics/mix){width="0.91\linewidth"}
+plot(mix))*](Graphics/mix){width="0.91\linewidth"}
 
 \newpage
 Apply $EM$ function from [sepro](https://github.com/hdrbv/sepro) package
@@ -129,7 +129,7 @@ And use $plot_em$ function from package to see results of distribution:
 
 \centering
 ![*Plot of separated mixture (result of
-plot\_em)*](graphics/plot_em){width="1\linewidth"}
+plot\_em)*](Graphics/plot_em){width="1\linewidth"}
 
 \newpage
 That's it. We have a fairly accurate parameter estimation of our
