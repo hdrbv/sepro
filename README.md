@@ -27,4 +27,3 @@ package.  Install **devtools** first:
 
     install_github("hdrbv/sepro", ref = "main")
     library(sepro)
-
