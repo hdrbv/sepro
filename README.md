@@ -41,12 +41,12 @@ example, \(Y\) might be the first component of the vector \(X\).
 Given that we only have \(y\), the main goal here is to find the maximum
 likelihood estimate (MLE) of \(\theta\):
 
-\[\hat{\theta}_{MLE} = argmax\ p(y|\theta)\]
+$\[\hat{\theta}_{MLE} = argmax\ p(y|\theta)\]$
 
 Is’s often easier to calculate the \(\theta\) that maximizes the
 log-likelihood of \(y\):
 
-\[\hat{\theta}_{MLE} = argmax\ log p(y|\theta)\]
+$$\[\hat{\theta}_{MLE} = argmax\ log p(y|\theta)\]$$
 
 Because log() is a monotonically increasing function, solutions will be
 the same for both equations. But sometimes it’s difficult to solve them.
