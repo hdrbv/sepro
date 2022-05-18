@@ -1,0 +1,132 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="" xml:lang="">
+<head>
+  <meta charset="utf-8" />
+  <meta name="generator" content="pandoc" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
+  <title>repgit2</title>
+  <style type="text/css">
+      code{white-space: pre-wrap;}
+      span.smallcaps{font-variant: small-caps;}
+      span.underline{text-decoration: underline;}
+      div.column{display: inline-block; vertical-align: top; width: 50%;}
+  </style>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.8.3/katex.min.js"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.8.3/contrib/auto-render.min.js"></script><script>document.addEventListener("DOMContentLoaded", function() {
+    renderMathInElement(document.body);
+  });</script><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.8.3/katex.min.css" />
+  <!--[if lt IE 9]>
+    <script src="//cdnjs.cloudflare.com/ajax/libs/html5shiv/3.7.3/html5shiv-printshiv.min.js"></script>
+  <![endif]-->
+</head>
+<body>
+<h1 id="sepro-separation-process-with-r">SePRo: Separation Process with R</h1>
+<p>Estimating of parameters in statistical distributions using R. Package provides an implementation of the EM algorithm (Expectation Maximization Algorithm) in the R language. Today, EM and its variants are regularly used to solve a broad range of today’s estimation problems, from the multiple EM for motif elicitation (MEME) algorithm for motif-finding in DNA sequences, to fitting mixture models to disambiguate targets from clutter in radar. Hope that you, too, will find EM useful. You can see details of usage <a href="https://github.com/hdrbv/sepro/blob/main/Tutorial/sepro-details.pdf/">here</a>.</p>
+
+<figure>
+<img src="graphics/ex1" alt="Example of mixture - 2 Gaussian functions" /><figcaption><em>Example of mixture - 2 Gaussian functions</em></figcaption>
+</figure>
+<h2 id="installation-in-r">Installation in R</h2>
+<p><strong>sepro</strong> is a GitHub package so you can use ‘install_github()‘ from <a href="https://cran.r-project.org/web/packages/devtools/index.html">devtools</a> package.  Install <strong>devtools</strong> first:</p>
+<pre><code>if(&quot;devtools&quot; %in% rownames(installed.packages()) == FALSE){
+install.packages(&quot;devtools&quot;)
+}
+library(devtools)</code></pre>
+<p> After that you can install <strong>sepro</strong> package:</p>
+<pre><code>install_github(&quot;hdrbv/sepro&quot;, ref = &quot;main&quot;)
+library(sepro)</code></pre>
+<h2 id="theory">Theory</h2>
+<p>Let’s assume that we have some observed data <span class="math inline">\(y\)</span>, a parametric density <span class="math inline">\(p(y|\theta)\)</span>, a description of some complete data <span class="math inline">\(x\)</span> that we wish we had, and the parametric density <span class="math inline">\(p(x|\theta)\)</span>. We assume that the complete data can be modeled as a continuous random vector <span class="math inline">\(X\)</span> with density <span class="math inline">\(p(x|\theta)\)</span>, where <span class="math inline">\(\theta \in \Omega\)</span> for some set <span class="math inline">\(\Omega\)</span>. We do not observe <span class="math inline">\(X\)</span> directly, instead we observe a realization <span class="math inline">\(y\)</span> of the random vector <span class="math inline">\(Y\)</span> that depends on <span class="math inline">\(X\)</span>. For example, <span class="math inline">\(Y\)</span> might be the first component of the vector <span class="math inline">\(X\)</span>.</p>
+<p>Given that we only have <span class="math inline">\(y\)</span>, the main goal here is to find the maximum likelihood estimate (MLE) of <span class="math inline">\(\theta\)</span>:</p>
+<p><span class="math display">\[\hat{\theta}_{MLE} = argmax\ p(y|\theta)\]</span></p>
+<p>Is’s often easier to calculate the <span class="math inline">\(\theta\)</span> that maximizes the log-likelihood of <span class="math inline">\(y\)</span>:</p>
+<p><span class="math display">\[\hat{\theta}_{MLE} = argmax\ log\ p(y|\theta)\]</span></p>
+<p>Because <span class="math inline">\(log()\)</span> is a monotonically increasing function, solutions will be the same for both equations. But sometimes it’s difficult to solve them. Then we can try EM: we make a guess about the complete data <span class="math inline">\(X\)</span> and solve for the <span class="math inline">\(\theta\)</span> that maximizes the (expected) log-likelihood of X. And once we have an estimate for <span class="math inline">\(\theta\)</span>, we can make a better guess about the complete data <span class="math inline">\(X\)</span>, and iterate.</p>
+<p>Let’s break E-step and M-step of algorithm down into five steps:</p>
+<ol>
+<li><p>Let <span class="math inline">\(m = 0\)</span> and make initial estimate <span class="math inline">\(\theta^{(m)}\)</span> for <span class="math inline">\(\theta\)</span></p></li>
+<li><p>Given the observed data <span class="math inline">\(y\)</span> and pretending for the moment that your current guess <span class="math inline">\(\theta^{(m)}\)</span> is correct, formulate the conditional probability distribution <span class="math inline">\(p(x|y, \theta^{(m)}\)</span> for the complete data <span class="math inline">\(x\)</span></p></li>
+<li><p>Using the conditional probability distribution <span class="math inline">\(p(x|y, \theta^{(m)})\)</span> calculated in step 2, form the conditional expected log-likelihood, which is called the Q-function:</p>
+<p><span class="math display">\[Q(\theta | \theta^{m}) = \int logp(x|\theta)p(x|y, \theta^{m})dx =\]</span> <span class="math display">\[= E_{X|y, \theta^{m}}(logp(X|\theta))\]</span></p>
+<p>where the integral is over set <span class="math inline">\(\chi(y)\)</span>, which is the closure of the set <span class="math inline">\({x|p(x|y, \theta)&gt; 0}\)</span>, and assume that <span class="math inline">\(\chi(y)\)</span> does not depend on <span class="math inline">\(\theta\)</span>.</p></li>
+<li><p>Find the <span class="math inline">\(\theta\)</span> that maximizes <span class="math inline">\(Q\)</span> - function; result = our new estimate = <span class="math inline">\(\theta^{(m+1)}\)</span></p></li>
+<li><p>Let m = m + 1 and go back to Step №2. EM algorithm does not specify a stopping criterion; standard criteria are to iterate until the estimate stops changing: <span class="math inline">\(|\theta^{(m+1)} - \theta^{(m)}| &lt; \epsilon\)</span> for some <span class="math inline">\(\epsilon\)</span> &gt; 0, or to iterate until the log-likelihood <span class="math inline">\(l(\theta^{m+1}) - l(\theta^{m}) &lt; \epsilon\)</span> for some <span class="math inline">\(\epsilon\)</span> &gt; 0</p></li>
+</ol>
+<p>EM algorithm is only guaranteed to never get worse. Usually, it will find a peak in the likelihood <span class="math inline">\(p(y|\theta)\)</span>, but if the likelihood function <span class="math inline">\(p(y|\theta)\)</span> has multiple peaks, EM will not necessarily find the global maximum of the likelihood. In practise, it’s common to start EM from multiple random initial guesses, and choose the one with the largest likelihood as the final guess for <span class="math inline">\(\theta\)</span></p>
+<h2 id="practice">Practice</h2>
+<p>Let’s apply theory to practise and also check the work of <a href="https://github.com/hdrbv/sepro">sepro</a> package. Firstly, let’s create mixture of two distributions which we will separate:</p>
+<pre><code>set.seed(1) #fix results of randomization
+cond &lt;- sample(c(0, 1), size = 500, 
+replace = TRUE, prob = c(0.4, 0.6))
+# Sample from two different Gaussian distributions
+mix &lt;- ifelse(cond == 1, rnorm(n = 500, mean = 5, sd = 1.5), 
+rnorm(n = 500, mean = 0, sd = 1))
+plot(mix)</code></pre>
+
+<figure>
+<img src="graphics/mix" alt="Plot of created mixture (result of plot(mix))" /><figcaption><em>Plot of created mixture (result of plot(mix))</em></figcaption>
+</figure>
+
+<p>Apply <span class="math inline">\(EM\)</span> function from <a href="https://github.com/hdrbv/sepro">sepro</a> package to our mixture:</p>
+<pre><code>vect &lt;- as.numeric(mix)
+EM1 &lt;- EM(vect, 2)</code></pre>
+<p>And use <span class="math inline">\(plot\_em\)</span> function from package to see results of separation process:</p>
+<pre><code>plot_em(vect, EM1)</code></pre>
+
+<figure>
+<img src="graphics/plot_em" alt="Plot of separated mixture (result of plot_em)" /><figcaption><em>Plot of separated mixture (result of plot_em)</em></figcaption>
+</figure>
+
+<p>That’s it. We have a fairly accurate parameter estimation of our distributions - it’s really close to real:</p>
+
+<table>
+<caption><span label=""></span></caption>
+<tbody>
+<tr class="odd">
+<td style="text-align: center;">[-1.8ex]</td>
+<td style="text-align: center;"></td>
+<td style="text-align: center;"></td>
+</tr>
+<tr class="even">
+<td style="text-align: center;">[-1.8ex]</td>
+<td style="text-align: center;">Expected value</td>
+<td style="text-align: center;">Variance</td>
+</tr>
+<tr class="odd">
+<td style="text-align: center;"></td>
+<td style="text-align: center;"></td>
+<td style="text-align: center;"></td>
+</tr>
+<tr class="even">
+<td style="text-align: center;">[-1.8ex] Distribution 1 (from initial dataset)</td>
+<td style="text-align: center;"><span class="math inline">\(0\)</span></td>
+<td style="text-align: center;"><span class="math inline">\(1\)</span></td>
+</tr>
+<tr class="odd">
+<td style="text-align: center;">Distribution 2 (from initial dataset)</td>
+<td style="text-align: center;"><span class="math inline">\(5\)</span></td>
+<td style="text-align: center;"><span class="math inline">\(1.5\)</span></td>
+</tr>
+<tr class="even">
+<td style="text-align: center;">Distribution 1 (after separation process)</td>
+<td style="text-align: center;"><span class="math inline">\(0\)</span></td>
+<td style="text-align: center;"><span class="math inline">\(1\)</span></td>
+</tr>
+<tr class="odd">
+<td style="text-align: center;">Distribution 2 (after separation process)</td>
+<td style="text-align: center;"><span class="math inline">\(5\)</span></td>
+<td style="text-align: center;"><span class="math inline">\(2\)</span></td>
+</tr>
+<tr class="even">
+<td style="text-align: center;"></td>
+<td style="text-align: center;"></td>
+<td style="text-align: center;"></td>
+</tr>
+<tr class="odd">
+<td style="text-align: center;">[-1.8ex]</td>
+<td style="text-align: center;"></td>
+<td style="text-align: center;"></td>
+</tr>
+</tbody>
+</table>
+</body>
+</html>
