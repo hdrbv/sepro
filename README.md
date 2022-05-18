@@ -29,69 +29,102 @@ package.  Install **devtools** first:
 
 ## Theory
 
-Let’s assume that we have some observed data \(y\), a parametric density
-\(p(y|\theta)\), a description of some complete data \(x\) that we wish
-we had, and the parametric density \(p(x|\theta)\). We assume that the
-complete data can be modeled as a continuous random vector \(X\) with
-density \(p(x|\theta), where\)\(\theta \in \Sigma\) for some set
-\(\Sigma\). We do not observe \(X\) directly, instead we observe a
-realization \(y\) of the random vector \(Y\) that depends on \(X\). For
-example, \(Y\) might be the first component of the vector \(X\).
+Let’s assume that we have some observed data
+<span class="math inline">\\(y\\)</span>, a parametric density
+<span class="math inline">\\(p(y|\\theta)\\)</span>, a description of
+some complete data <span class="math inline">\\(x\\)</span> that we wish
+we had, and the parametric density
+<span class="math inline">\\(p(x|\\theta)\\)</span>. We assume that the
+complete data can be modeled as a continuous random vector
+<span class="math inline">\\(X\\)</span> with density
+<span class="math inline">\\(p(x|\\theta),
+where\\)</span><span class="math inline">\\(\\theta \\in
+\\Sigma\\)</span> for some set
+<span class="math inline">\\(\\Sigma\\)</span>. We do not observe
+<span class="math inline">\\(X\\)</span> directly, instead we observe a
+realization <span class="math inline">\\(y\\)</span> of the random
+vector <span class="math inline">\\(Y\\)</span> that depends on
+<span class="math inline">\\(X\\)</span>. For example,
+<span class="math inline">\\(Y\\)</span> might be the first component of
+the vector <span class="math inline">\\(X\\)</span>.
 
-Given that we only have \(y\), the main goal here is to find the maximum
-likelihood estimate (MLE) of \(\theta\):
+Given that we only have <span class="math inline">\\(y\\)</span>, the
+main goal here is to find the maximum likelihood estimate (MLE) of
+<span class="math inline">\\(\\theta\\)</span>:
 
-$\[\hat{\theta}_{MLE} = argmax\ p(y|\theta)\]$
+<span class="math display">\\\[\\hat{\\theta}\_{MLE} = argmax\\
+p(y|\\theta)\\\]</span>
 
-Is’s often easier to calculate the \(\theta\) that maximizes the
-log-likelihood of \(y\):
+Is’s often easier to calculate the
+<span class="math inline">\\(\\theta\\)</span> that maximizes the
+log-likelihood of <span class="math inline">\\(y\\)</span>:
 
-$$\[\hat{\theta}_{MLE} = argmax\ log p(y|\theta)\]$$
+<span class="math display">\\\[\\hat{\\theta}\_{MLE} = argmax\\ log
+p(y|\\theta)\\\]</span>
 
 Because log() is a monotonically increasing function, solutions will be
 the same for both equations. But sometimes it’s difficult to solve them.
-Then we can try EM: we make a guess about the complete data \(X\) and
-solve for the \(\theta\) that maximizes the (expected) log-likelihood of
-X. And once we have an estimate for \(\theta\), we can make a better
-guess about the complete data \(X\), and iterate.
+Then we can try EM: we make a guess about the complete data
+<span class="math inline">\\(X\\)</span> and solve for the
+<span class="math inline">\\(\\theta\\)</span> that maximizes the
+(expected) log-likelihood of X. And once we have an estimate for
+<span class="math inline">\\(\\theta\\)</span>, we can make a better
+guess about the complete data <span class="math inline">\\(X\\)</span>,
+and iterate.
 
 Let’s break E-step and M-step of algorithm down into five steps:
 
-1.  Let \(m = 0\) and make initial estimate \(\theta^{m}\) for
-    \(\theta\)
+1.  Let <span class="math inline">\\(m = 0\\)</span> and make initial
+    estimate <span class="math inline">\\(\\theta^{m}\\)</span> for
+    <span class="math inline">\\(\\theta\\)</span>
 
-2.  Given the observed data \(y\) and pretending for the moment that
-    your current guess \(\theta^{m}\) is correct, formulate the
-    conditional probability distribution \(p(x|y, \theta^(m))\) for the
-    complete data \(x\)
+2.  Given the observed data <span class="math inline">\\(y\\)</span> and
+    pretending for the moment that your current guess
+    <span class="math inline">\\(\\theta^{m}\\)</span> is correct,
+    formulate the conditional probability distribution
+    <span class="math inline">\\(p(x|y, \\theta^(m))\\)</span> for the
+    complete data <span class="math inline">\\(x\\)</span>
 
 3.  Using the conditional probability distribution
-    \(p(x|y, \theta^{m})\) calculated in step 2, form the conditional
-    expected log-likelihood, which is called the Q-function:
+    <span class="math inline">\\(p(x|y, \\theta^{m})\\)</span>
+    calculated in step 2, form the conditional expected log-likelihood,
+    which is called the Q-function:
     
-    \[Q(\theta | \theta^{m}) = \int logp(x|\theta)p(x|y, \theta^{m})dx =\]
-    \[= E_{X|y, \theta^{m}}logp(X|\theta)\]
+    <span class="math display">\\\[Q(\\theta | \\theta^{m}) = \\int
+    logp(x|\\theta)p(x|y, \\theta^{m})dx =\\\]</span>
+    <span class="math display">\\\[= E\_{X|y,
+    \\theta^{m}}logp(X|\\theta)\\\]</span>
     
-    where the integral is over set \(\chi(y)\), which is the closure of
-    the set \({x|p(x|y, \theta)> 0}\), and assume that \(\chi(y)\) does
-    not depend on \(\theta\).
+    where the integral is over set
+    <span class="math inline">\\(\\chi(y)\\)</span>, which is the
+    closure of the set <span class="math inline">\\({x|p(x|y, \\theta)\>
+    0}\\)</span>, and assume that
+    <span class="math inline">\\(\\chi(y)\\)</span> does not depend on
+    <span class="math inline">\\(\\theta\\)</span>.
 
-4.  Find the \(\theta\) that maximizes \(Q\) - function; result = our
-    new estimate \(\theta^{m+1}\)
+4.  Find the <span class="math inline">\\(\\theta\\)</span> that
+    maximizes <span class="math inline">\\(Q\\)</span> - function;
+    result = our new estimate
+    <span class="math inline">\\(\\theta^{m+1}\\)</span>
 
 5.  Let m = m + 1 and go back to Step №2.EM algorithm does not specify a
     stopping criterion; standard criteria are to iterate until the
-    estimate stops changing: \(|\theta^{m+1} - \theta^{m}| < \epsilon\)
-    for some \(\epsilon\) \> 0, or to iterate until the log-likelihood
-    \(l(\theta^{m+1}) - l(\theta^{m}) < \epsilon\) for some \(\epsilon\)
-    \> 0
+    estimate stops changing: <span class="math inline">\\(|\\theta^{m+1}
+    - \\theta^{m}| \< \\epsilon\\)</span> for some
+    <span class="math inline">\\(\\epsilon\\)</span> \> 0, or to iterate
+    until the log-likelihood
+    <span class="math inline">\\(l(\\theta^{m+1}) - l(\\theta^{m}) \<
+    \\epsilon\\)</span> for some
+    <span class="math inline">\\(\\epsilon\\)</span> \> 0
 
 EM algorithm is only guaranteed to never get worse. Usually, it will
-find a peak in the likelihood \(p(y|\theta)\), but if the likelihood
-function \(p(y|\theta)\) has multiple peaks, EM will not necessarily
-find the global maximum of the likelihood. In practise, it’s common to
-start EM from multiple random initial guesses, and choose the one with
-the largest likelihood as the final guess for \(\theta\)
+find a peak in the likelihood
+<span class="math inline">\\(p(y|\\theta)\\)</span>, but if the
+likelihood function <span class="math inline">\\(p(y|\\theta)\\)</span>
+has multiple peaks, EM will not necessarily find the global maximum of
+the likelihood. In practise, it’s common to start EM from multiple
+random initial guesses, and choose the one with the largest likelihood
+as the final guess for <span class="math inline">\\(\\theta\\)</span>
 
 ## Practice
 
@@ -109,14 +142,14 @@ mixture of two distributions which we will separate:
 
 ![*Plot of created mixture (result of plot(mix))*](graphics/mix.png)
 
-Apply \(EM\) function from [sepro](https://github.com/hdrbv/sepro)
-package to our mixture:
+Apply <span class="math inline">\\(EM\\)</span> function from
+[sepro](https://github.com/hdrbv/sepro) package to our mixture:
 
     vect <- as.numeric(mix)
     EM1 <- EM(vect, 2)
 
-And use \(plot_em\) function from package to see results of
-distribution:
+And use <span class="math inline">\\(plot\_em\\)</span> function from
+package to see results of distribution:
 
     plot_em(vect, EM1)
 
@@ -125,19 +158,13 @@ distribution:
 That’s it. We have a fairly accurate parameter estimation of our
 distributions - it’s really close to real:
 
-<div>
+| :----------------------------------------------: | :--------------------------------------: | :----------------------------------------: |
+|                    \[-1.8ex\]                    |              Expected value              |                  Variance                  |
+|                                                  |                                          |                                            |
+| \[-1.8ex\] Distribution 1 (from initial dataset) | <span class="math inline">\\(0\\)</span> |  <span class="math inline">\\(1\\)</span>  |
+|      Distribution 2 (from initial dataset)       | <span class="math inline">\\(5\\)</span> | <span class="math inline">\\(1.5\\)</span> |
+|    Distribution 1 (after separation process)     | <span class="math inline">\\(0\\)</span> |  <span class="math inline">\\(1\\)</span>  |
+|    Distribution 2 (after separation process)     | <span class="math inline">\\(5\\)</span> |  <span class="math inline">\\(2\\)</span>  |
 
-|                                           |                |          |
-| :---------------------------------------: | :------------: | :------: |
-|                                           |                |          |
-|                                           | Expected value | Variance |
-|                                           |                |          |
-|   Distribution 1 (from initial dataset)   |     \(0\)      |  \(1\)   |
-|   Distribution 2 (from initial dataset)   |     \(5\)      | \(1.5\)  |
-| Distribution 1 (after separation process) |     \(0\)      |  \(1\)   |
-| Distribution 2 (after separation process) |     \(5\)      |  \(2\)   |
-|                                           |                |          |
-
-</div>
-
+<span label=""></span>
 
