@@ -9,9 +9,9 @@ DNA sequences, to fitting mixture models to disambiguate targets from
 clutter in radar. Hope that you, too, will find EM useful. 
 
 You can see details of usage 
-[here](https://github.com/hdrbv/sepro/blob/main/Tutorial/sepro-details.pdf/).
+[here](https://github.com/hdrbv/sepro/blob/main/tutorial/sepro-details.pdf/).
 
-![*Example of mixture - 2 Gaussian functions*](graphics/ex1.png)
+![*Example of mixture - 2 Gaussian functions*](docs/graphics/ex1.png)
 
 ## Installation in R
 
